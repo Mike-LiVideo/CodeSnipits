@@ -1,0 +1,151 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingBottom="@dimen/activity_vertical_margin"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
+              tools:context=".RfidActivity">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/rfidPermitTital"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/permit_number"
+                android:textColor="@android:color/black"
+                />
+
+            <TextView
+                android:id="@+id/rfidPermitContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/boarder"
+                android:paddingLeft="10dp"
+                android:textColor="@android:color/black"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/rfidTypeTital"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/permit_type"
+                android:textColor="@android:color/black"
+                />
+
+            <TextView
+                android:id="@+id/rfidTypeContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/boarder"
+                android:paddingLeft="10dp"
+                android:textColor="@android:color/black"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/rfidPlateTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/licinse_plate"
+        android:textColor="@android:color/black"
+        />
+
+    <TextView
+        android:id="@+id/rfidPlateContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/boarder"
+        android:paddingLeft="10dp"
+        android:textColor="@android:color/black"
+        />
+
+    <TextView
+        android:id="@+id/rfidMakeTital"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/vehicle_make"
+        android:textColor="@android:color/black"
+        />
+
+    <TextView
+        android:id="@+id/rfidMakeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/boarder"
+        android:paddingLeft="10dp"
+        android:textColor="@android:color/black"
+        />
+
+    <TextView
+        android:id="@+id/rfidYearTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/model_year"
+        android:textColor="@android:color/black"
+        />
+
+    <TextView
+        android:id="@+id/rfidYearContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/boarder"
+        android:paddingLeft="10dp"
+        android:textColor="@android:color/black"
+        />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/scanner_status"
+            android:textColor="@android:color/black"
+            />
+
+        <TextView
+            android:id="@+id/btn_scan"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/idle"/>
+
+    </LinearLayout>
+
+    <!--<Button-->
+        <!--style="@style/AppTheme.ListEntry.Param.Value.Button.SmallText"-->
+        <!--android:id="@+id/btn_scan"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="startScan"-->
+        <!--android:text="@string/btn_scan"/>-->
+
+</LinearLayout>
