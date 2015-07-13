@@ -133,7 +133,7 @@ public class Options{
                 else if(aProperties.getProperty(name).trim().equalsIgnoreCase("false")){
                     editor.putBoolean(name, false);
                 }
-				else if(isNumeric(Integer.parseInt(aProperties.getProperty(name).trim()))){
+                else if(isNumeric(aProperties.getProperty(name).trim())){
                     editor.putInt(name, Integer.parseInt(aProperties.getProperty(name).trim()));
                 }
                 else{
