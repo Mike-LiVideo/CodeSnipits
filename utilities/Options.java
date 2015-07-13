@@ -127,11 +127,8 @@ public class Options{
         for(String name : aProperties.stringPropertyNames()){
 
             try{
-                if(aProperties.getProperty(name).trim().equalsIgnoreCase("true")){
-                    editor.putBoolean(name, true);
-                }
-                else if(aProperties.getProperty(name).trim().equalsIgnoreCase("false")){
-                    editor.putBoolean(name, false);
+                if(aProperties.getProperty(name).trim().equalsIgnoreCase("true") || aProperties.getProperty(name).trim().equalsIgnoreCase("false")){
+                    editor.putBoolean(name, Boolean.parseBoolean(aProperties.getProperty(name).trim()));
                 }
                 else if(isNumeric(aProperties.getProperty(name).trim())){
                     editor.putInt(name, Integer.parseInt(aProperties.getProperty(name).trim()));
