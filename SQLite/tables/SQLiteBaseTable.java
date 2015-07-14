@@ -1,6 +1,6 @@
 import android.provider.BaseColumns;
 
-import SQLiteStatementsInterface;
+import com.dataticket.db.SQLiteStatementsInterface;
 
 import java.util.ArrayList;
 
@@ -11,70 +11,58 @@ public abstract class SQLiteBaseTable
         implements BaseColumns, SQLiteStatementsInterface{
 
     public final String TABLE_NAME = getTableName();
-    public final String COLUMN_NAME_ONE = getColumnNameOne();
-    public final String COLUMN_NAME_TWO = getColumnNameTwo();
-    public final String COLUMN_NAME_THREE = getColumnNameThree();
-    public final String COLUMN_NAME_FOUR = getColumnNameFour();
-    public final String COLUMN_NAME_FIVE = getColumnNameFive();
-    public final String COLUMN_NAME_SIX = getColumnNameSix();
-    public final String COLUMN_NAME_SEVEN = getColumnNameSeven();
-    public final String COLUMN_NAME_EIGHT = getColumnNameEight();
-    public final int NUMBER_OF_COLUMNS = numberOfUsedColumns();
-    protected ArrayList<String> projectionList = fillList();
-    public String[] PROJECTION = projectionList.toArray(new String[projectionList.size()]);
+    protected final ArrayList<String> TABLE_COLUMNS = setColumnNames();
+    public String[] PROJECTION = TABLE_COLUMNS.toArray(new String[TABLE_COLUMNS.size()]);
 
     public String DELETE_TABLE = CS_DELETE + TABLE_NAME + "; ";
 
     abstract String getTableName();
 
-    abstract String getColumnNameOne();
-
-    abstract String getColumnNameTwo();
-
-    abstract String getColumnNameThree();
-
-    abstract String getColumnNameFour();
-
-    abstract String getColumnNameFive();
-
-    abstract String getColumnNameSix();
-
-    abstract String getColumnNameSeven();
-
-    abstract String getColumnNameEight();
+    abstract ArrayList<String> setColumnNames();
 
     abstract int numberOfUsedColumns();
 
+    public String getValuesEndString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("VALUES (");
+        //starting at one so i can leave off the comma before the close
+        for (int i = 1; i < numberOfUsedColumns(); i++){
+            sb.append("?, ");
+        }
+        sb.append("?)");
+        return sb.toString();
+    }
+
     public String getColumnName(int integer){
-        switch(integer){
-            case 0:
-                return COLUMN_NAME_ONE;
-            case 1:
-                return COLUMN_NAME_TWO;
-            case 2:
-                return COLUMN_NAME_THREE;
-            case 3:
-                return COLUMN_NAME_FOUR;
-            case 4:
-                return COLUMN_NAME_FIVE;
-            case 5:
-                return COLUMN_NAME_SIX;
-            case 6:
-                return COLUMN_NAME_SEVEN;
-            case 7:
-                return COLUMN_NAME_EIGHT;
-            default:
-                return null;
+        if(integer <= TABLE_COLUMNS.size()){
+            return TABLE_COLUMNS.get(--integer);
+        }
+        else{
+            return null;
         }
     }
 
-    private ArrayList<String> fillList(){
-        ArrayList<String> mStringArrayList = new ArrayList<String>();
-        for(int i = 0; i < numberOfUsedColumns(); i++){
-            mStringArrayList.add(getColumnName(i));
-        }
+    public String getCreateTableStatement(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(CS_CREATE_TABLE).append(TABLE_NAME).append(CS_OPEN_PARENTHESIS);
 
-        return mStringArrayList;
+        for (int i = 1; i < TABLE_COLUMNS.size(); i++){
+            sb.append(getColumnName(i)).append(CS_TEXT).append(CS_COMMA);
+        }
+        sb.append(getColumnName(TABLE_COLUMNS.size())).append(CS_TEXT).append(CS_END_TABLE);
+
+        return sb.toString();
     }
 
+    public String getInsertIntoTableStatement(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(CS_INSERT).append(TABLE_NAME).append(CS_OPEN_PARENTHESIS);
+
+        for (int i = 1; i < TABLE_COLUMNS.size(); i++){
+            sb.append(getColumnName(i)).append(CS_COMMA);
+        }
+        sb.append(getColumnName(TABLE_COLUMNS.size())).append(CS_CLOSE_PARENTHESIS).append(getValuesEndString());
+
+        return sb.toString();
+    }
 }

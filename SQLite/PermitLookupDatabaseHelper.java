@@ -29,7 +29,7 @@ public class PermitLookupDatabaseHelper
     public void onCreate(SQLiteDatabase db){
         PermitLookupTable mPermitLookupTable = new PermitLookupTable();
         gIsNew = true;
-        db.execSQL(mPermitLookupTable.CREATE_TABLE);
+        db.execSQL(mPermitLookupTable.getCreateTableStatement());
     }
 
     @Override
@@ -37,7 +37,7 @@ public class PermitLookupDatabaseHelper
         PermitLookupTable mPermitLookupTable = new PermitLookupTable();
         gIsNew = true;
         db.execSQL(mPermitLookupTable.DELETE_TABLE);
-        db.execSQL(mPermitLookupTable.CREATE_TABLE);
+        db.execSQL(mPermitLookupTable.getCreateTableStatement());
     }
 
     public void fillDatabase(){
@@ -45,12 +45,6 @@ public class PermitLookupDatabaseHelper
         long start = System.currentTimeMillis();
         File file = new File(Environment.getExternalStorageDirectory() + "PLATEPERMITS.txt");
         SQLiteDatabase mSQLiteDatabase = this.getWritableDatabase();
-        String mSQLiteString = CS_INSERT + mPermitLookupTable.TABLE_NAME + CS_OPEN_PARENTHESIS
-                + mPermitLookupTable.COLUMN_NAME_ONE + CS_COMMA
-                + mPermitLookupTable.COLUMN_NAME_TWO + CS_COMMA
-                + mPermitLookupTable.COLUMN_NAME_THREE + CS_COMMA
-                + mPermitLookupTable.COLUMN_NAME_FOUR + CS_CLOSE_PARENTHESIS
-                + CS_VALUES_FOUR;
 
         String[] mEntry;
         BufferedReader mBufferedReader = null;
@@ -61,7 +55,7 @@ public class PermitLookupDatabaseHelper
             String mCurrentLine;
             mBufferedReader = new BufferedReader(new FileReader(file));
             mSQLiteDatabase.beginTransactionNonExclusive();
-            SQLiteStatement mSQLiteStatement = mSQLiteDatabase.compileStatement(mSQLiteString);
+            SQLiteStatement mSQLiteStatement = mSQLiteDatabase.compileStatement(mPermitLookupTable.getInsertIntoTableStatement());
             while((mCurrentLine = mBufferedReader.readLine()) != null){
                 mEntry = mCurrentLine.split("\t", -1);
                 mSQLiteStatement.bindString(1, mEntry[0]);

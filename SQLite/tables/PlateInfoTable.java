@@ -1,18 +1,12 @@
+import java.util.ArrayList;
+
 /**
  * Created by michael.wheeler on 4/1/2015.
  */
 public class PlateInfoTable
         extends SQLiteBaseTable{
 
-    public final String CREATE_TABLE = CS_CREATE_TABLE + TABLE_NAME + CS_OPEN_PARENTHESIS
-            + COLUMN_NAME_ONE + CS_TEXT
-            + CS_COMMA + COLUMN_NAME_TWO + CS_TEXT
-            + CS_COMMA + COLUMN_NAME_THREE + CS_TEXT
-            + CS_COMMA + COLUMN_NAME_FOUR + CS_TEXT
-            + CS_COMMA + COLUMN_NAME_FIVE + CS_TEXT
-            + CS_COMMA + COLUMN_NAME_SIX + CS_TEXT + CS_END_TABLE;
-
-    public final String WHERE_CLAUSE = COLUMN_NAME_ONE + CS_WHERE_MORE + COLUMN_NAME_TWO + CS_WHERE_END;
+    public final String WHERE_CLAUSE = this.getColumnName(1) + CS_WHERE_MORE + this.getColumnName(2) + CS_WHERE_END;
 
     @Override
     String getTableName(){
@@ -20,47 +14,19 @@ public class PlateInfoTable
     }
 
     @Override
-    String getColumnNameOne(){
-        return "plate";
-    }
-
-    @Override
-    String getColumnNameTwo(){
-        return "state";
-    }
-
-    @Override
-    String getColumnNameThree(){
-        return "vin";
-    }
-
-    @Override
-    String getColumnNameFour(){
-        return "make";
-    }
-
-    @Override
-    String getColumnNameFive(){
-        return "type";
-    }
-
-    @Override
-    String getColumnNameSix(){
-        return "primary_color";
-    }
-
-    @Override
-    String getColumnNameSeven(){
-        return null;
-    }
-
-    @Override
-    String getColumnNameEight(){
-        return null;
+    ArrayList<String> setColumnNames(){
+        ArrayList<String> columns = new ArrayList<String>();
+        columns.add("plate");
+        columns.add("state");
+        columns.add("vin");
+        columns.add("make");
+        columns.add("type");
+        columns.add("primary_color");
+        return columns;
     }
 
     @Override
     int numberOfUsedColumns(){
-        return 6;
+        return this.TABLE_COLUMNS.size();
     }
 }

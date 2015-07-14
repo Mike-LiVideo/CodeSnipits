@@ -29,7 +29,7 @@ public class RepeatOffendersDatabaseHelper
     public void onCreate(SQLiteDatabase db){
         RepeatOffenderTable mRepeatOffenderTable = new RepeatOffenderTable();
         gIsNew = true;
-        db.execSQL(mRepeatOffenderTable.CREATE_TABLE);
+        db.execSQL(mRepeatOffenderTable.getCreateTableStatement());
     }
 
     @Override
@@ -37,7 +37,7 @@ public class RepeatOffendersDatabaseHelper
         RepeatOffenderTable mRepeatOffenderTable = new RepeatOffenderTable();
         gIsNew = true;
         db.execSQL(mRepeatOffenderTable.DELETE_TABLE);
-        db.execSQL(mRepeatOffenderTable.CREATE_TABLE);
+        db.execSQL(mRepeatOffenderTable.getCreateTableStatement());
     }
 
     /**
@@ -74,7 +74,7 @@ public class RepeatOffendersDatabaseHelper
         RepeatOffenderTable mRepeatOffenderTable = new RepeatOffenderTable();
         Cursor c = db.query(mRepeatOffenderTable.TABLE_NAME, mRepeatOffenderTable.PROJECTION, mRepeatOffenderTable.SPECIFIC_VIOLATION_WHERE_CLAUSE, new String[]{state, plate, violation, "False"}, null, null, null);
         if(c.moveToFirst()){
-            amount = c.getInt(c.getColumnIndex(mRepeatOffenderTable.COLUMN_NAME_FOUR));
+            amount = c.getInt(c.getColumnIndex(mRepeatOffenderTable.getColumnName(4)));
         }
         else{
             amount = 0;
@@ -84,13 +84,13 @@ public class RepeatOffendersDatabaseHelper
 
     public int getViolationsCount(SQLiteDatabase db, String state, String plate){
         RepeatOffenderTable mRepeatOffenderTable = new RepeatOffenderTable();
-        Cursor c = db.query(true, mRepeatOffenderTable.TABLE_NAME, mRepeatOffenderTable.PROJECTION, mRepeatOffenderTable.ALL_VIOLATIONS_WHERE_CLAUSE, new String[]{state, plate},mRepeatOffenderTable.COLUMN_NAME_THREE ,null, null, null);
+        Cursor c = db.query(true, mRepeatOffenderTable.TABLE_NAME, mRepeatOffenderTable.PROJECTION, mRepeatOffenderTable.ALL_VIOLATIONS_WHERE_CLAUSE, new String[]{state, plate},mRepeatOffenderTable.getColumnName(3) ,null, null, null);
         return c.getCount();
     }
 
     public Cursor getViolationsCursor(SQLiteDatabase db, String state, String plate){
         RepeatOffenderTable mRepeatOffenderTable = new RepeatOffenderTable();
-        return db.query(true, mRepeatOffenderTable.TABLE_NAME, new String[] {mRepeatOffenderTable.COLUMN_NAME_THREE}, mRepeatOffenderTable.ALL_VIOLATIONS_WHERE_CLAUSE, new String[]{state, plate},mRepeatOffenderTable.COLUMN_NAME_THREE ,null, null, null);
+        return db.query(true, mRepeatOffenderTable.TABLE_NAME, new String[] {mRepeatOffenderTable.getColumnName(3)}, mRepeatOffenderTable.ALL_VIOLATIONS_WHERE_CLAUSE, new String[]{state, plate},mRepeatOffenderTable.getColumnName(3) ,null, null, null);
     }
 
     public void fillDatabase(){
@@ -98,14 +98,6 @@ public class RepeatOffendersDatabaseHelper
         long start = System.currentTimeMillis();
         File file = new File(Environment.getExternalStorageDirectory() +"RepeatOffenders.txt");
         SQLiteDatabase mSQLiteDatabase = this.getWritableDatabase();
-        String mSQLiteString = CS_INSERT + mRepeatOffenderTable.TABLE_NAME + CS_OPEN_PARENTHESIS
-                + mRepeatOffenderTable.COLUMN_NAME_ONE + CS_COMMA
-                + mRepeatOffenderTable.COLUMN_NAME_TWO + CS_COMMA
-                + mRepeatOffenderTable.COLUMN_NAME_THREE + CS_COMMA
-                + mRepeatOffenderTable.COLUMN_NAME_FOUR + CS_COMMA
-                + mRepeatOffenderTable.COLUMN_NAME_FIVE + CS_CLOSE_PARENTHESIS
-                + CS_VALUES_FIVE;
-
         String[] mEntry;
         BufferedReader mBufferedReader = null;
         try{
@@ -115,7 +107,7 @@ public class RepeatOffendersDatabaseHelper
             String mCurrentLine;
             mBufferedReader = new BufferedReader(new FileReader(file));
             mSQLiteDatabase.beginTransactionNonExclusive();
-            SQLiteStatement mSQLiteStatement = mSQLiteDatabase.compileStatement(mSQLiteString);
+            SQLiteStatement mSQLiteStatement = mSQLiteDatabase.compileStatement(mRepeatOffenderTable.getInsertIntoTableStatement());
             while((mCurrentLine = mBufferedReader.readLine()) != null){
                 mEntry = mCurrentLine.split("\t");
                 mSQLiteStatement.bindString(1, mEntry[0]);

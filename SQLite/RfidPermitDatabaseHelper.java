@@ -1,5 +1,3 @@
-package com.dataticket.db;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -51,12 +49,12 @@ public class RfidPermitDatabaseHelper
         File file = new File(Environment.getExternalStorageDirectory() + Files.RFID_PERMITS);
         SQLiteDatabase mSQLiteDatabase = this.getWritableDatabase();
         String mSQLiteString = CS_INSERT + mRfidPermitTable.TABLE_NAME + CS_OPEN_PARENTHESIS
-                + mRfidPermitTable.COLUMN_NAME_ONE + CS_COMMA
-                + mRfidPermitTable.COLUMN_NAME_TWO + CS_COMMA
-                + mRfidPermitTable.COLUMN_NAME_THREE + CS_COMMA
-                + mRfidPermitTable.COLUMN_NAME_FOUR + CS_COMMA
-                + mRfidPermitTable.COLUMN_NAME_FIVE + CS_CLOSE_PARENTHESIS
-                + CS_VALUES_FIVE;
+                + mRfidPermitTable.getColumnName(1) + CS_COMMA
+                + mRfidPermitTable.getColumnName(2) + CS_COMMA
+                + mRfidPermitTable.getColumnName(3) + CS_COMMA
+                + mRfidPermitTable.getColumnName(4) + CS_COMMA
+                + mRfidPermitTable.getColumnName(5) + CS_CLOSE_PARENTHESIS
+                + mRfidPermitTable.getValuesEndString();
 
         String[] mEntry;
         BufferedReader mBufferedReader = null;
@@ -98,7 +96,6 @@ public class RfidPermitDatabaseHelper
         long end = System.currentTimeMillis();
 
         double time = (end - start) / 1000.00;
-        Log.i("MIKE", "Total time = " + time + "sec For " + Files.PLATE_INFO);
     }
 
     public Cursor getRfidPermitCursor(SQLiteDatabase db, String tagId){

@@ -29,7 +29,7 @@ public class PlateInfoDatabaseHelper
     public void onCreate(SQLiteDatabase db){
         PlateInfoTable mPlateInfoTable = new PlateInfoTable();
         gIsNew = true;
-        db.execSQL(mPlateInfoTable.CREATE_TABLE);
+        db.execSQL(mPlateInfoTable.getCreateTableStatement());
 
     }
 
@@ -38,7 +38,7 @@ public class PlateInfoDatabaseHelper
         PlateInfoTable mPlateInfoTable = new PlateInfoTable();
         gIsNew = true;
         db.execSQL(mPlateInfoTable.DELETE_TABLE);
-        db.execSQL(mPlateInfoTable.CREATE_TABLE);
+        db.execSQL(mPlateInfoTable.getCreateTableStatement());
     }
 
     public void fillDatabase(){
@@ -46,15 +46,6 @@ public class PlateInfoDatabaseHelper
         long start = System.currentTimeMillis();
         File file = new File(Environment.getExternalStorageDirectory() + "PLATEINFO.txt");
         SQLiteDatabase mSQLiteDatabase = this.getWritableDatabase();
-        String mSQLiteString = CS_INSERT + mPlateInfoTable.TABLE_NAME + CS_OPEN_PARENTHESIS
-                + mPlateInfoTable.COLUMN_NAME_ONE + CS_COMMA
-                + mPlateInfoTable.COLUMN_NAME_TWO + CS_COMMA
-                + mPlateInfoTable.COLUMN_NAME_THREE + CS_COMMA
-                + mPlateInfoTable.COLUMN_NAME_FOUR + CS_COMMA
-                + mPlateInfoTable.COLUMN_NAME_FIVE + CS_COMMA
-                + mPlateInfoTable.COLUMN_NAME_SIX + CS_CLOSE_PARENTHESIS
-                + CS_VALUES_SIX;
-
         String[] mEntry;
         BufferedReader mBufferedReader = null;
         try{
@@ -64,7 +55,7 @@ public class PlateInfoDatabaseHelper
             String mCurrentLine;
             mBufferedReader = new BufferedReader(new FileReader(file));
             mSQLiteDatabase.beginTransactionNonExclusive();
-            SQLiteStatement mSQLiteStatement = mSQLiteDatabase.compileStatement(mSQLiteString);
+            SQLiteStatement mSQLiteStatement = mSQLiteDatabase.compileStatement(mPlateInfoTable.getInsertIntoTableStatement());
             while((mCurrentLine = mBufferedReader.readLine()) != null){
                 mEntry = mCurrentLine.split("\t", -1);
                 mSQLiteStatement.bindString(1, mEntry[0]);

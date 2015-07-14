@@ -1,4 +1,4 @@
-package com.dataticket.db.tables;
+import java.util.ArrayList;
 
 /**
  * Created by michael.wheeler on 4/1/2015.
@@ -6,14 +6,8 @@ package com.dataticket.db.tables;
 public class RepeatOffenderTable
         extends SQLiteBaseTable{
 
-    public final String CREATE_TABLE = CS_CREATE_TABLE + TABLE_NAME + CS_OPEN_PARENTHESIS
-            + COLUMN_NAME_ONE + CS_TEXT
-            + CS_COMMA + COLUMN_NAME_TWO + CS_TEXT
-            + CS_COMMA + COLUMN_NAME_THREE + CS_TEXT
-            + CS_COMMA + COLUMN_NAME_FOUR + CS_INTEGER
-            + CS_COMMA + COLUMN_NAME_FIVE + CS_TEXT + CS_END_TABLE;
-    public final String SPECIFIC_VIOLATION_WHERE_CLAUSE = COLUMN_NAME_ONE + CS_WHERE_MORE + COLUMN_NAME_TWO + CS_WHERE_MORE + COLUMN_NAME_THREE + CS_WHERE_MORE + COLUMN_NAME_FIVE + CS_WHERE_END;
-    public final String ALL_VIOLATIONS_WHERE_CLAUSE = COLUMN_NAME_ONE + CS_WHERE_MORE + COLUMN_NAME_TWO + CS_WHERE_END;
+    public final String SPECIFIC_VIOLATION_WHERE_CLAUSE = this.getColumnName(1) + CS_WHERE_MORE + this.getColumnName(2) + CS_WHERE_MORE + this.getColumnName(3) + CS_WHERE_MORE + this.getColumnName(5) + CS_WHERE_END;
+    public final String ALL_VIOLATIONS_WHERE_CLAUSE = this.getColumnName(1) + CS_WHERE_MORE + this.getColumnName(2) + CS_WHERE_END;
 
     @Override
     String getTableName(){
@@ -21,47 +15,18 @@ public class RepeatOffenderTable
     }
 
     @Override
-    String getColumnNameOne(){
-        return "state";
-    }
-
-    @Override
-    String getColumnNameTwo(){
-        return "plate";
-    }
-
-    @Override
-    String getColumnNameThree(){
-        return "violation";
-    }
-
-    @Override
-    String getColumnNameFour(){
-        return "amount";
-    }
-
-    @Override
-    String getColumnNameFive(){
-        return "is_warning";
-    }
-
-    @Override
-    String getColumnNameSix(){
-        return null;
-    }
-
-    @Override
-    String getColumnNameSeven(){
-        return null;
-    }
-
-    @Override
-    String getColumnNameEight(){
-        return null;
+    ArrayList<String> setColumnNames(){
+        ArrayList<String> columns = new ArrayList<String>();
+        columns.add("state");
+        columns.add("plate");
+        columns.add("violation");
+        columns.add("amount");
+        columns.add("is_warning");
+        return columns;
     }
 
     @Override
     int numberOfUsedColumns(){
-        return 5;
+        return this.TABLE_COLUMNS.size();
     }
 }

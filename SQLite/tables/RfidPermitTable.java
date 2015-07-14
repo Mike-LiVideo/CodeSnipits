@@ -1,4 +1,4 @@
-package com.dataticket.db.tables;
+import java.util.ArrayList;
 
 /**
  * Created by michael.wheeler on 4/1/2015.
@@ -7,13 +7,13 @@ public class RfidPermitTable
         extends SQLiteBaseTable{
 
     public final String CREATE_TABLE = CS_CREATE_TABLE + TABLE_NAME + CS_OPEN_PARENTHESIS
-            + COLUMN_NAME_ONE + CS_TEXT
-            + CS_COMMA + COLUMN_NAME_TWO + CS_TEXT
-            + CS_COMMA + COLUMN_NAME_THREE + CS_TEXT
-            + CS_COMMA + COLUMN_NAME_FOUR + CS_TEXT
-            + CS_COMMA + COLUMN_NAME_FIVE + CS_TEXT + CS_END_TABLE;
+            + this.getColumnName(1) + CS_TEXT
+            + CS_COMMA + this.getColumnName(2) + CS_TEXT
+            + CS_COMMA + this.getColumnName(3) + CS_TEXT
+            + CS_COMMA + this.getColumnName(4) + CS_TEXT
+            + CS_COMMA + this.getColumnName(5) + CS_TEXT + CS_END_TABLE;
 
-    public final String WHERE_CLAUSE = COLUMN_NAME_ONE + CS_WHERE_END;
+    public final String WHERE_CLAUSE = this.getColumnName(1) + CS_WHERE_END;
 
     @Override
     String getTableName(){
@@ -21,47 +21,18 @@ public class RfidPermitTable
     }
 
     @Override
-    String getColumnNameOne(){
-        return "permit";
-    }
-
-    @Override
-    String getColumnNameTwo(){
-        return "type";
-    }
-
-    @Override
-    String getColumnNameThree(){
-        return "plate";
-    }
-
-    @Override
-    String getColumnNameFour(){
-        return "make";
-    }
-
-    @Override
-    String getColumnNameFive(){
-        return "year";
-    }
-
-    @Override
-    String getColumnNameSix(){
-        return null;
-    }
-
-    @Override
-    String getColumnNameSeven(){
-        return null;
-    }
-
-    @Override
-    String getColumnNameEight(){
-        return null;
+    ArrayList<String> setColumnNames(){
+        ArrayList<String> columns = new ArrayList<String>();
+        columns.add("permit");
+        columns.add("type");
+        columns.add("plate");
+        columns.add("make");
+        columns.add("year");
+        return columns;
     }
 
     @Override
     int numberOfUsedColumns(){
-        return 6;
+        return this.TABLE_COLUMNS.size();
     }
 }
